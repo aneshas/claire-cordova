@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for i in $*;
+do
+    params=" $params $i"
+done
+
+docker run -it \
+    --rm \
+    --privileged \
+    -v $PWD:/src claire/cordova $params
