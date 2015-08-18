@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Copying cdv script..."
+cp -u ./cdv /usr/local/bin
+
+echo "Setting up permissions..."
+chmod 755 /usr/local/bin/cdv
+
+echo "Done"
