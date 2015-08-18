@@ -23,8 +23,12 @@ function build_release {
     jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ClaireGooglePlay.keystore android-release-unsigned.apk ClaireGooglePlay 
 }
 
+cd /src/www/js
+
+echo "Go getting packages..."
+go get -v
 echo "GopherJS is compiling..."
-cd /src/www/js && gopherjs build -o="main.js" -v
+gopherjs build -o="main.js" -v
 
 cd /src
 
