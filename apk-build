@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# GopherJS Compilation
+function gopherjs_compile {
+    echo "GopherJS compilation in progress..."
+}
+
+# Debug build
+function build_debug {
+    echo "Building debug apk..."
+    cordova build
+}
+
+# Release build
+function build_release {
+   # Build release apk
+    echo "Building unsigned release apk..."
+    cordova plugin rm org.apache.cordova.console
+    cordova build --release android
+
+    # Try to sign the apk
+    echo "Signing apk..."
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ClaireGooglePlay.keystore android-release-unsigned.apk ClaireGooglePlay 
+}
+
+echo "GopherJS is compiling..."
+cd /src/www/js && gopherjs build -o="main.js" -v
+
+cd /src
+
+if [[ $1 != "release" ]]; then
+    build_debug
+else
+    build_release
+fi
