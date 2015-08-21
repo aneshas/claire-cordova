@@ -23,6 +23,10 @@ function build_release {
     jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
         -keystore ClaireGooglePlay.keystore \
         platforms/android/build/outputs/apk/android-release-unsigned.apk android
+    
+    echo "Aligning zip file..."
+    /usr/local/android-sdk-linux/build-tools/22.0.1/zipalign -v 4 \
+        platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk
 }
 
 cd /src/www/js
