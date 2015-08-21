@@ -20,7 +20,9 @@ function build_release {
 
     # Try to sign the apk
     echo "Signing apk..."
-    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ClaireGooglePlay.keystore android-release-unsigned.apk ClaireGooglePlay 
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+        -keystore ClaireGooglePlay.keystore \
+        platforms/android/build/outputs/apk/android-release-unsigned.apk android
 }
 
 cd /src/www/js
