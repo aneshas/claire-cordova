@@ -25,6 +25,12 @@ function build_release {
         platforms/android/build/outputs/apk/android-release-unsigned.apk android
     
     echo "Aligning zip file..."
+
+    if [ -e "android.apk" ]; then
+        echo "Removing previous build..."
+        rm -f android.apk
+    fi
+
     /usr/local/android-sdk-linux/build-tools/22.0.1/zipalign -v 4 \
         platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk
 }

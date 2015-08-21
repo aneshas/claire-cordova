@@ -5,7 +5,13 @@ do
     params=" $params $i"
 done
 
-docker run -it \
-    --rm \
-    --privileged \
-    -v $PWD:/src claire/cordova $params
+if [[ $1 == "help" ]]; then
+    echo "Usage:"
+    echo "cdv <command to send to the container> eg. cdv cordova create test" 
+    echo "cdv apk-build [release] - builds project, omit [release] for the debug version"
+else
+    docker run -it \
+        --rm \
+        --privileged \
+        -v $PWD:/src claire/cordova $params
+fi
