@@ -14,25 +14,31 @@ function build_debug {
 # Release build
 function build_release {
    # Build release apk
-    echo "Building unsigned release apk..."
-    cordova plugin rm org.apache.cordova.console
-    cordova build --release android
 
-    # Try to sign the apk
-    echo "Signing apk..."
-    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
-        -keystore ClaireGooglePlay.keystore \
-        platforms/android/build/outputs/apk/android-release-unsigned.apk android
-    
-    echo "Aligning zip file..."
+   # Check if .keystore file is present
+   if [ -e "ClaireGooglePlay.keystore" ]; then
+        echo "Building unsigned release apk..."
+        cordova plugin rm org.apache.cordova.console
+        cordova build --release android
 
-    if [ -e "android.apk" ]; then
-        echo "Removing previous build..."
-        rm -f android.apk
+        # Try to sign the apk
+        echo "Signing apk..."
+        jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+            -keystore ClaireGooglePlay.keystore \
+            platforms/android/build/outputs/apk/android-release-unsigned.apk android
+        
+        echo "Aligning zip file..."
+
+        if [ -e "android.apk" ]; then
+            echo "Removing previous build..."
+            rm -f android.apk
+        fi
+
+        /usr/local/android-sdk-linux/build-tools/22.0.1/zipalign -v 4 \
+            platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk
+    else
+        echo "> ClaireGooglePlay.keystore file not present. Please place the file in your project root."
     fi
-
-    /usr/local/android-sdk-linux/build-tools/22.0.1/zipalign -v 4 \
-        platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk
 }
 
 cd /src/www/js
