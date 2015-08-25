@@ -24,6 +24,7 @@ function build_release {
         # Try to sign the apk
         echo "Signing apk..."
         jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+            -storepass android \
             -keystore ClaireGooglePlay.keystore \
             platforms/android/build/outputs/apk/android-release-unsigned.apk android
         
